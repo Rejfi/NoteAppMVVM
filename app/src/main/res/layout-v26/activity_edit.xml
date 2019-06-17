@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              style="@style/AppTheme">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/title_detail"
+                android:inputType="textLongMessage"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:background="@android:color/transparent"
+                android:hint="Title"
+                android:layout_margin="10dp"
+                android:autofillHints=""/>
+    </LinearLayout>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/message_detail"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox.Dense"
+            android:background="@android:color/transparent"
+            android:gravity="start"
+            android:hint="Text"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:autofillHints=""/>
+</LinearLayout>
