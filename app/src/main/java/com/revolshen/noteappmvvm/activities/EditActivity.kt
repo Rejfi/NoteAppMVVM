@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_edit.*
 class EditActivity : AppCompatActivity() {
 
     companion object{
+        const val EXTRA_ID = "com.revolshen.noteappmvvm.activities.EXTRA_ID"
         const val EXTRA_TITLE = "com.revolshen.noteappmvvm.activities.EXTRA_TITLE" //Name of extras from result
         const val EXTRA_MESSAGE = "com.revolshen.noteappmvvm.activities.EXTRA_MESSAGE"
     }

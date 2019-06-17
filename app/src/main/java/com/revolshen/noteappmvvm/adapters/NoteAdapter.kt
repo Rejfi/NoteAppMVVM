@@ -3,6 +3,7 @@ package com.revolshen.noteappmvvm.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
@@ -14,11 +15,11 @@ import kotlinx.android.synthetic.main.note_cardview.view.*
 
 class NoteAdapter : RecyclerView.Adapter<NoteHolder>() {
      private var notes: List<Note>? = null
+     private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return NoteHolder(layoutInflater.inflate(R.layout.note_cardview, parent, false))
-
     }
 
     override fun getItemCount(): Int {
@@ -28,11 +29,10 @@ class NoteAdapter : RecyclerView.Adapter<NoteHolder>() {
     }
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-
         //Set data from database in correct places
         val currentNote = notes!![holder.adapterPosition]
         holder.textViewTitle.text = currentNote.title
-        holder.textViewDescription.text = currentNote.description
+        holder.textViewDescription.text = currentNote.message
 
     }
 
@@ -47,7 +47,16 @@ class NoteAdapter : RecyclerView.Adapter<NoteHolder>() {
         return notes!![position]
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(note: Note)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
 }
+
 class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     var textViewTitle: TextView = itemView.title_cardView

@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +18,7 @@ import com.revolshen.noteappmvvm.viewmodels.NoteViewModel
 import com.revolshen.noteappmvvm.R
 import com.revolshen.noteappmvvm.datas.Note
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.note_cardview.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,6 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         }).attachToRecyclerView(recycler_view)
 
+
     }
 
     //Insert data using viewModel. Data from EditActivity
@@ -75,6 +80,9 @@ class MainActivity : AppCompatActivity() {
                     data!!.getStringExtra(EditActivity.EXTRA_TITLE),
                     data.getStringExtra(EditActivity.EXTRA_MESSAGE))
                 noteViewModel.insert(newNote)
+        }
+        if(requestCode== EDIT_CODE && resultCode== Activity.RESULT_OK){
+            TODO("Zaimplementować aktualizacje już istniejącej notatki")
         }
 
     }
