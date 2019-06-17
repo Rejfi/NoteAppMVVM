@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     companion object{
-        const val EDIT_CODE = 1
+        const val EDIT_CODE = 1 //Request code for intent
         const val NEW_NOTE = 2
     }
 
@@ -29,22 +29,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Set recyclerView layoutManager & adapter
         val adapter = NoteAdapter()
         recycler_view.adapter = adapter
         recycler_view.layoutManager = GridLayoutManager(applicationContext, 2)
         recycler_view.setHasFixedSize(true)
-        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
 
+        noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         noteViewModel.getAllNotes().observe(this, Observer<List<Note>> {
+            //Update recyclerView adapter to show current notes
             adapter.setNotes(it)
         })
 
+        //Click FB to take new note
         newNoteBT.setOnClickListener {
             val intent = Intent(applicationContext, EditActivity::class.java)
             startActivityForResult(intent, NEW_NOTE)
         }
 
 
+        //Swiping notes to delete them
         ItemTouchHelper(object : SimpleCallback(0, RIGHT or LEFT){
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -62,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Insert data using viewModel. Data from EditActivity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -70,8 +75,6 @@ class MainActivity : AppCompatActivity() {
                     data!!.getStringExtra(EditActivity.EXTRA_TITLE),
                     data.getStringExtra(EditActivity.EXTRA_MESSAGE))
                 noteViewModel.insert(newNote)
-
-
         }
 
     }

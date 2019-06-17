@@ -3,6 +3,8 @@ package com.revolshen.noteappmvvm.datas
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+
+//Database
 @Dao
 interface NoteDAO {
 

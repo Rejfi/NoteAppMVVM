@@ -12,40 +12,6 @@ import com.revolshen.noteappmvvm.datas.Note
 import com.revolshen.noteappmvvm.R
 import kotlinx.android.synthetic.main.note_cardview.view.*
 
-/*
-class NoteAdapter() : RecyclerView.Adapter<NoteAdapter.NoteHolder>(){
-    private var notes: List<Note> = ArrayList()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-
-        return NoteHolder(layoutInflater.inflate(R.layout.note_cardview, parent, false))
-
-    }
-
-    override fun getItemCount(): Int {
-        return 3
-    }
-
-    override fun onBindViewHolder(holder: NoteHolder, position: Int) {
-        var currentNote = notes[holder.adapterPosition]
-        holder.title.text = currentNote.title
-        holder.message.text = currentNote.description
-    }
-
-    class NoteHolder(view: View): RecyclerView.ViewHolder(view){
-      val title: TextView = view.findViewById(R.id.title_cardView)
-      val message: TextView = view.findViewById(R.id.message_cardView)
-      val date: TextView = view.findViewById(R.id.date_note)
-     // val priority: Int? = null
-    }
-
-    fun setNotes(notes: List<Note>){
-        this.notes = notes
-        notifyDataSetChanged()
-    }
-}*/
-
 class NoteAdapter : RecyclerView.Adapter<NoteHolder>() {
      private var notes: List<Note>? = null
 
@@ -62,17 +28,21 @@ class NoteAdapter : RecyclerView.Adapter<NoteHolder>() {
     }
 
     override fun onBindViewHolder(holder: NoteHolder, position: Int) {
+
+        //Set data from database in correct places
         val currentNote = notes!![holder.adapterPosition]
         holder.textViewTitle.text = currentNote.title
         holder.textViewDescription.text = currentNote.description
 
     }
 
+    //Set notes and inform that data has changed
     fun setNotes(allNotes: List<Note>){
         notes = allNotes
         notifyDataSetChanged()
     }
 
+    //Get note from given @position
     fun getNote(position: Int): Note{
         return notes!![position]
     }

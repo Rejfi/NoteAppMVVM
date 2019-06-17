@@ -15,7 +15,7 @@ abstract class NoteDataBase : RoomDatabase() {
 
     companion object {
         private var instance: NoteDataBase? = null
-
+        //Give Instance (Singleton) of NoteDatabase
         fun getInstance(context: Context): NoteDataBase? {
             if (instance == null) {
                 synchronized(NoteDataBase::class) {
@@ -24,26 +24,29 @@ abstract class NoteDataBase : RoomDatabase() {
                         NoteDataBase::class.java, "note_database"
                     )
                         .fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
-                        .addCallback(roomCallback)
+                       // .addCallback(roomCallback)
                         .build()
                 }
             }
             return instance
         }
 
+        //Delete Singleton NoteDatabase
         fun destroyInstance() {
             instance = null
         }
 
+        /*
         private val roomCallback = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
                // PopulateDbAsyncTask(instance)
                 //    .execute()
             }
-        }
+        }*/
     }
 
+    /*
     class PopulateDbAsyncTask(db: NoteDataBase?) : AsyncTask<Unit, Unit, Unit>() {
         private val noteDao = db?.noteDao()
 
@@ -53,5 +56,5 @@ abstract class NoteDataBase : RoomDatabase() {
             noteDao?.insert(Note("title 3", "description 3"))
         }
     }
-
+    */
 }
