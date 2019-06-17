@@ -7,6 +7,9 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.*
+import androidx.recyclerview.widget.RecyclerView
 import com.revolshen.noteappmvvm.adapters.NoteAdapter
 import com.revolshen.noteappmvvm.viewmodels.NoteViewModel
 import com.revolshen.noteappmvvm.R
@@ -40,6 +43,23 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, EditActivity::class.java)
             startActivityForResult(intent, NEW_NOTE)
         }
+
+
+        ItemTouchHelper(object : SimpleCallback(0, RIGHT or LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                noteViewModel.delete(adapter.getNote(viewHolder.adapterPosition))
+            }
+
+        }).attachToRecyclerView(recycler_view)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -58,3 +78,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+

@@ -38,8 +38,8 @@ abstract class NoteDataBase : RoomDatabase() {
         private val roomCallback = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                PopulateDbAsyncTask(instance)
-                    .execute()
+               // PopulateDbAsyncTask(instance)
+                //    .execute()
             }
         }
     }
