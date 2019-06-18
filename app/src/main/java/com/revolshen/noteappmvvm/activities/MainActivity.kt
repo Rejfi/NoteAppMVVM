@@ -2,24 +2,22 @@ package com.revolshen.noteappmvvm.activities
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
-import com.revolshen.noteappmvvm.adapters.NoteAdapter
-import com.revolshen.noteappmvvm.viewmodels.NoteViewModel
 import com.revolshen.noteappmvvm.R
+import com.revolshen.noteappmvvm.adapters.NoteAdapter
 import com.revolshen.noteappmvvm.datas.Note
+import com.revolshen.noteappmvvm.viewmodels.NoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.note_cardview.*
+import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -86,20 +84,22 @@ class MainActivity : AppCompatActivity() {
     //Insert data using viewModel. Data from EditActivity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
         if(requestCode == NEW_NOTE && resultCode == Activity.RESULT_OK){
-                val newNote = Note(
+
+            val newNote = Note(
                     data!!.getStringExtra(EditActivity.EXTRA_TITLE),
                     data.getStringExtra(EditActivity.EXTRA_MESSAGE),
-                    Calendar.getInstance().time.toString())
+                    currentDate)
                 noteViewModel.insert(newNote)
         }
         if(requestCode== EDIT_CODE && resultCode== Activity.RESULT_OK){
+
             val updateNote = Note(
                 data!!.getStringExtra(EditActivity.EXTRA_TITLE),
                 data.getStringExtra(EditActivity.EXTRA_MESSAGE),
-                Calendar.getInstance().time.toString()
-            )
+                currentDate)
             updateNote.id = data.getIntExtra(EditActivity.EXTRA_ID, -1)
             noteViewModel.update(updateNote)
         }
