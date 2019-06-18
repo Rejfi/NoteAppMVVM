@@ -10,8 +10,8 @@ import androidx.room.PrimaryKey
 data class Note (
 
     var title: String,
-    var message: String
-    //var priority: Int
+    var message: String,
+    var date: String
 
 ) {
 

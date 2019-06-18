@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 
-@Database(entities = [Note::class], version = 3)
+@Database(entities = [Note::class], version = 4)
 abstract class NoteDataBase : RoomDatabase() {
 
     abstract fun noteDao(): NoteDAO

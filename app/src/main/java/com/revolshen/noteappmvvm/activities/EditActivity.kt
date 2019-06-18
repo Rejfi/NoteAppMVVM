@@ -22,9 +22,9 @@ class EditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit)
 
         //If data from intent exists set them in correct places
-        if(intent.hasExtra(MainActivity.EDIT_CODE.toString())){
-            title_detail.setText(intent.getStringExtra("title"))
-            message_detail.setText(intent.getStringExtra("message"))
+        if(intent.hasExtra(EXTRA_ID)){
+            title_detail.setText(intent.getStringExtra(EXTRA_TITLE))
+            message_detail.setText(intent.getStringExtra(EXTRA_MESSAGE))
         }
     }
 
@@ -39,7 +39,12 @@ class EditActivity : AppCompatActivity() {
             R.id.saveBT -> {
                 val intent = Intent().apply {
                     putExtra(EXTRA_TITLE, title_detail.text.toString())
-                    putExtra(EXTRA_MESSAGE, message_detail.text.toString()) }
+                    putExtra(EXTRA_MESSAGE, message_detail.text.toString())
+                    if (intent.getIntExtra(EXTRA_ID, -1) != -1) {
+                        putExtra(EXTRA_ID, intent.getIntExtra(EXTRA_ID, -1))
+                    }
+
+                }
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }

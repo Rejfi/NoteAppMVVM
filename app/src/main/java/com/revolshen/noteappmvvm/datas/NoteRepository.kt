@@ -20,13 +20,21 @@ class NoteRepository(application: Application) {
         allNotes = noteDao.getAllNotes()
     }
 
-    fun insert(note: Note){val insertNoteAsyncTask = InsertNoteAsyncTask(noteDao).execute(note) }
+    fun insert(note: Note){
+        InsertNoteAsyncTask(noteDao).execute(note)
+    }
 
-    fun update(note: Note){val updateNoteAsyncTask = UpdateNoteAsyncTask(noteDao).execute(note)}
+    fun update(note: Note){
+        UpdateNoteAsyncTask(noteDao).execute(note)
+    }
 
-    fun delete(note: Note){val deleteNoteAsyncTask = DeleteNoteAsyncTask(noteDao).execute(note) }
+    fun delete(note: Note){
+        DeleteNoteAsyncTask(noteDao).execute(note)
+    }
 
-    fun deleteAllNotes(){val deleteAllNotesAsyncTask = DeleteAllNotesAsyncTask(noteDao).execute() }
+    fun deleteAllNotes(){
+        DeleteAllNotesAsyncTask(noteDao).execute()
+    }
 
     fun getAllNotes(): LiveData<List<Note>>{return allNotes }
 

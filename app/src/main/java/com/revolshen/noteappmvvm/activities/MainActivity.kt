@@ -19,6 +19,7 @@ import com.revolshen.noteappmvvm.R
 import com.revolshen.noteappmvvm.datas.Note
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.note_cardview.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,6 +69,17 @@ class MainActivity : AppCompatActivity() {
 
         }).attachToRecyclerView(recycler_view)
 
+        adapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
+            override fun onItemClick(note: Note) {
+                val intent = Intent(applicationContext, EditActivity::class.java)
+                intent.putExtra(EditActivity.EXTRA_ID, note.id)
+                intent.putExtra(EditActivity.EXTRA_TITLE, note.title)
+                intent.putExtra(EditActivity.EXTRA_MESSAGE, note.message)
+
+                startActivityForResult(intent, EDIT_CODE)
+            }
+        })
+
 
     }
 
@@ -78,14 +90,23 @@ class MainActivity : AppCompatActivity() {
         if(requestCode == NEW_NOTE && resultCode == Activity.RESULT_OK){
                 val newNote = Note(
                     data!!.getStringExtra(EditActivity.EXTRA_TITLE),
-                    data.getStringExtra(EditActivity.EXTRA_MESSAGE))
+                    data.getStringExtra(EditActivity.EXTRA_MESSAGE),
+                    Calendar.getInstance().time.toString())
                 noteViewModel.insert(newNote)
         }
         if(requestCode== EDIT_CODE && resultCode== Activity.RESULT_OK){
-            TODO("Zaimplementować aktualizacje już istniejącej notatki")
+            val updateNote = Note(
+                data!!.getStringExtra(EditActivity.EXTRA_TITLE),
+                data.getStringExtra(EditActivity.EXTRA_MESSAGE),
+                Calendar.getInstance().time.toString()
+            )
+            updateNote.id = data.getIntExtra(EditActivity.EXTRA_ID, -1)
+            noteViewModel.update(updateNote)
         }
 
     }
+
+
 
 
 }
