@@ -21,10 +21,17 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
+
         //If data from intent exists set them in correct places
         if(intent.hasExtra(EXTRA_ID)){
             title_detail.setText(intent.getStringExtra(EXTRA_TITLE))
             message_detail.setText(intent.getStringExtra(EXTRA_MESSAGE))
+            //Set title if user edits note
+            title = "Edytuj notatkę"
+        }
+        else{
+            //Set title if user creates new note
+            title = "Stwórz notatkę"
         }
     }
 

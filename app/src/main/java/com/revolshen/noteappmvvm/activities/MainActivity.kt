@@ -2,7 +2,10 @@ package com.revolshen.noteappmvvm.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.view.Gravity
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -32,10 +35,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        title = "Moje notatki"
+
         //Set recyclerView layoutManager & adapter
         val adapter = NoteAdapter()
         recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(applicationContext, 2)
+       // recycler_view.layoutManager = GridLayoutManager(applicationContext, 2)
         recycler_view.setHasFixedSize(true)
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
@@ -67,6 +72,7 @@ class MainActivity : AppCompatActivity() {
 
         }).attachToRecyclerView(recycler_view)
 
+       //Click note to edit
         adapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
             override fun onItemClick(note: Note) {
                 val intent = Intent(applicationContext, EditActivity::class.java)
@@ -78,14 +84,32 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        //Click long to share the note through the selected application
+        adapter.setOnItemLongClickListener(object : NoteAdapter.OnItemLongClickListener{
+            override fun onItemLongClick(note: Note) {
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, note.message)
+                    type = "text/plain"
+                }
+                Toast.makeText(applicationContext, "Udostępnianie notatki", Toast.LENGTH_LONG).apply {
+                    setGravity(Gravity.TOP,0, 0)
+                    show()
+                }
+                startActivity(sendIntent)
+            }
+
+        })
 
     }
-
     //Insert data using viewModel. Data from EditActivity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        //Current date for note in scheme YYYY-MM-DD
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
+        //Check that note was creating or editing
         if(requestCode == NEW_NOTE && resultCode == Activity.RESULT_OK){
 
             val newNote = Note(
@@ -106,7 +130,19 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
 
+        //Set the most suitable layout for recyclerView depends on Orientation
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recycler_view.layoutManager = GridLayoutManager(applicationContext, 3)
+        } else {
+            recycler_view.layoutManager = GridLayoutManager(applicationContext, 2)
+        }
+
+
+    }
 
 
 }

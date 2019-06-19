@@ -26,10 +26,12 @@
             android:focusable="true"
             android:visibility="visible"
             android:layout_weight="5"
-            app:background="@color/colorAccent" android:layout_gravity="end"
+            app:background="@color/colorAccent"
+            android:layout_gravity="end"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
-            app:layout_anchorGravity="end|bottom" app:layout_anchor="@+id/recycler_view"/>
+            app:layout_anchorGravity="end|bottom"
+            app:layout_anchor="@+id/recycler_view"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

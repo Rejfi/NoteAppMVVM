@@ -3,6 +3,7 @@ package com.revolshen.noteappmvvm.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.revolshen.noteappmvvm.R
@@ -15,6 +16,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
 
     private var notes: List<Note>? = null
     private var listener: OnItemClickListener? = null
+    private var longClickListener: OnItemLongClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -52,11 +54,19 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
     inner class NoteHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         init {
+            itemView.setOnLongClickListener {
+                if(adapterPosition != RecyclerView.NO_POSITION){
+                    longClickListener?.onItemLongClick(notes!![adapterPosition])
+                }
+                true
+            }
+
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     listener?.onItemClick(notes!![adapterPosition])
                 }
+
             }
         }
 
@@ -74,4 +84,11 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteHolder>() {
         this.listener = listener
     }
 
+    interface OnItemLongClickListener{
+        fun onItemLongClick(note: Note)
+    }
+
+    fun setOnItemLongClickListener(longClickListener: OnItemLongClickListener){
+        this.longClickListener = longClickListener
+    }
 }
