@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         noteViewModel.getAllNotes().observe(this, Observer<List<Note>> {
             //Update recyclerView adapter to show current notes
-            adapter.setNotes(it)
+            adapter.submitList(it)
         })
 
         //Click FB to take new note
@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 noteViewModel.delete(adapter.getNote(viewHolder.adapterPosition))
+               // adapter.notifyItemRemoved(viewHolder.adapterPosition)
+
             }
 
         }).attachToRecyclerView(recycler_view)
