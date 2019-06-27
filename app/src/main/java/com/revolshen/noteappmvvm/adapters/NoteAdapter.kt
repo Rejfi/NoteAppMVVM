@@ -139,7 +139,6 @@ class NoteAdapter : ListAdapter<Note,NoteAdapter.NoteHolder>(DIFF_CALLBACK) {
 
     }
 
-
     //Get note from given @position
     fun getNote(position: Int): Note {
         return getItem(position)

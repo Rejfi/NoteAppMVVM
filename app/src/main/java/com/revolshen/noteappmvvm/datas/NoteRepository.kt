@@ -20,23 +20,25 @@ class NoteRepository(application: Application) {
         allNotes = noteDao.getAllNotes()
     }
 
-    fun insert(note: Note){
+    fun insert(note: Note) {
         InsertNoteAsyncTask(noteDao).execute(note)
     }
 
-    fun update(note: Note){
+    fun update(note: Note) {
         UpdateNoteAsyncTask(noteDao).execute(note)
     }
 
-    fun delete(note: Note){
+    fun delete(note: Note) {
         DeleteNoteAsyncTask(noteDao).execute(note)
     }
 
-    fun deleteAllNotes(){
+    fun deleteAllNotes() {
         DeleteAllNotesAsyncTask(noteDao).execute()
     }
 
-    fun getAllNotes(): LiveData<List<Note>>{return allNotes }
+    fun getAllNotes(): LiveData<List<Note>> {
+        return allNotes
+    }
 
 
     //Use Database in Background

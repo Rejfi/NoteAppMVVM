@@ -24,7 +24,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         const val EDIT_CODE = 1 //Request code for intent
         const val NEW_NOTE = 2
     }
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         //Set recyclerView layoutManager & adapter
         val adapter = NoteAdapter()
         recycler_view.adapter = adapter
-       // recycler_view.layoutManager = GridLayoutManager(applicationContext, 2)
+        // recycler_view.layoutManager = GridLayoutManager(applicationContext, 2)
         recycler_view.setHasFixedSize(true)
 
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(intent, NEW_NOTE)
         }
 
-
         //Swiping notes to delete them
         ItemTouchHelper(object : SimpleCallback(0, RIGHT or LEFT){
             override fun onMove(
@@ -63,18 +62,16 @@ class MainActivity : AppCompatActivity() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                return false
+                return true
             }
-
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 noteViewModel.delete(adapter.getNote(viewHolder.adapterPosition))
-               // adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
             }
 
         }).attachToRecyclerView(recycler_view)
 
-       //Click note to edit
+        //Click note to edit
         adapter.setOnItemClickListener(object : NoteAdapter.OnItemClickListener {
             override fun onItemClick(note: Note) {
                 val intent = Intent(applicationContext, EditActivity::class.java)
@@ -87,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         //Click long to share the note through the selected application
-        adapter.setOnItemLongClickListener(object : NoteAdapter.OnItemLongClickListener{
+        adapter.setOnItemLongClickListener(object : NoteAdapter.OnItemLongClickListener {
             override fun onItemLongClick(note: Note) {
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
@@ -95,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                     type = "text/plain"
                 }
                 Toast.makeText(applicationContext, "Udostępnianie notatki", Toast.LENGTH_LONG).apply {
-                    setGravity(Gravity.TOP,0, 0)
+                    setGravity(Gravity.TOP, 0, 0)
                     show()
                 }
                 startActivity(sendIntent)
@@ -104,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
+
     //Insert data using viewModel. Data from EditActivity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -112,20 +110,22 @@ class MainActivity : AppCompatActivity() {
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
         //Check that note was creating or editing
-        if(requestCode == NEW_NOTE && resultCode == Activity.RESULT_OK){
+        if (requestCode == NEW_NOTE && resultCode == Activity.RESULT_OK) {
 
             val newNote = Note(
-                    data!!.getStringExtra(EditActivity.EXTRA_TITLE),
-                    data.getStringExtra(EditActivity.EXTRA_MESSAGE),
-                    currentDate)
-                noteViewModel.insert(newNote)
+                data!!.getStringExtra(EditActivity.EXTRA_TITLE),
+                data.getStringExtra(EditActivity.EXTRA_MESSAGE),
+                currentDate
+            )
+            noteViewModel.insert(newNote)
         }
-        if(requestCode== EDIT_CODE && resultCode== Activity.RESULT_OK){
+        if (requestCode == EDIT_CODE && resultCode == Activity.RESULT_OK) {
 
             val updateNote = Note(
                 data!!.getStringExtra(EditActivity.EXTRA_TITLE),
                 data.getStringExtra(EditActivity.EXTRA_MESSAGE),
-                currentDate)
+                currentDate
+            )
             updateNote.id = data.getIntExtra(EditActivity.EXTRA_ID, -1)
             noteViewModel.update(updateNote)
         }

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 //Class represent simple note
 
 @Entity(tableName = "note_table")
-data class Note (
+data class Note(
 
     var title: String,
     var message: String,

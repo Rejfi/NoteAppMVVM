@@ -21,10 +21,10 @@ abstract class NoteDataBase : RoomDatabase() {
                 synchronized(NoteDataBase::class) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        NoteDataBase::class.java, "note_database"
+                        NoteDataBase::class.java,
+                        "note_database"
                     )
                         .fallbackToDestructiveMigration() // when version increments, it migrates (deletes db and creates new) - else it crashes
-                       // .addCallback(roomCallback)
                         .build()
                 }
             }
